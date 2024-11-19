@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internship Management System</title>
+  <style>
+    /* General reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body and App Container */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    #app {
+      width: 100%;
+      max-width: 1000px;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    /* Login Section */
+    #loginSection {
+      background-color: #ffb6c1; /* Light pink background */
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    #loginSection h2 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #d6336c; /* Dark pink color */
+    }
+
+    button {
+      background-color: #d6336c; /* Pink color */
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      margin: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #c13557; /* Darker pink on hover */
+    }
+
+    /* Dashboard */
+    .dashboard {
+      display: none;
+      margin-top: 30px;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: #ff6f91; /* Pinkish color */
+    }
+
+    form {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    label {
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    input[type="date"],
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="number"],
+    input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+
+    button[type="submit"] {
+      background-color: #28a745;
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      color: white;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #218838;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f8f8f8;
+    }
+
+    td {
+      background-color: #f9f9f9;
+    }
+
+    /* Logout Button */
+    button.logout {
+      background-color: #e74c3c;
+      margin-top: 30px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+    }
+
+    button.logout:hover {
+      background-color: #c0392b;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      #app {
+        padding: 20px;
+      }
+
+      button {
+        width: 100%;
+        padding: 15px 25px;
+        font-size: 1.2em;
+      }
+
+      form {
+        width: 100%;
+      }
+
+      table {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Login Section -->
+    <div id="loginSection" class="container">
+      <h2>Login</h2>
+      <p>Select your role to continue:</p>
+      <button onclick="setRole('intern')">Login as Intern</button>
+      <button onclick="setRole('mentor')">Login as Mentor</button>
+      <button onclick="setRole('coordinator')">Login as Coordinator</button>
+    </div>
+
+    <!-- Intern Dashboard -->
+    <div id="internDashboard" class="dashboard">
+      <header>
+        <h1>Intern Dashboard</h1>
+      </header>
+      <section class="form-section">
+        <h2>Internship Details</h2>
+        <form id="internDetailsForm">
+          <label for="startDate">Start Date:</label>
+          <input type="date" id="startDate" required>
+
+          <label for="companyName">Company Name:</label>
+          <input type="text" id="companyName" required>
+
+          <label for="companyAddress">Company Address:</label>
+          <input type="text" id="companyAddress" required>
+
+          <label for="externalMentor">External Mentor Name:</label>
+          <input type="text" id="externalMentor" required>
+
+          <label for="mentorContact">External Mentor Contact:</label>
+          <input type="tel" id="mentorContact" required>
+
+          <label for="mentorEmail">External Mentor Email:</label>
+          <input type="email" id="mentorEmail" required>
+
+          <label for="companyRegNumber">Company Registration Number:</label>
+          <input type="text" id="companyRegNumber" required>
+
+          <label for="stipend">Stipend Amount:</label>
+          <input type="number" id="stipend" required>
+
+          <label for="offerLetter">Upload Offer Letter:</label>
+          <input type="file" id="offerLetter" required>
+
+          <button type="submit">Submit Details</button>
+        </form>
+      </section>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Mentor Dashboard -->
+    <div id="mentorDashboard" class="dashboard">
+      <header>
+        <h1>Mentor Dashboard</h1>
+      </header>
+      <section class="review-section">
+        <h2>Review Intern Reports</h2>
+        <p>Review intern's reports and give feedback.</p>
+        <!-- Form for reviewing intern reports -->
+      </section>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Coordinator Dashboard -->
+    <div id="coordinatorDashboard" class="dashboard">
+      <header>
+        <h1>Coordinator Dashboard</h1>
+      </header>
+      <section class="progress-section">
+        <h2>View Intern Progress</h2>
+        <table id="internProgressTable">
+          <thead>
+            <tr>
+              <th>Intern Name</th>
+              <th>Company</th>
+              <th>Status</th>
+              <th>Report Submitted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Intern progress table populated dynamically -->
+          </tbody>
+        </table>
+      </section>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript code for switching between dashboards and handling intern form submission
+    function setRole(role) {
+      // Hide all dashboards first
+      document.querySelectorAll('.dashboard').forEach(dashboard => {
+        dashboard.style.display = 'none';
+      });
+
+      // Show the corresponding dashboard
+      if (role === 'intern') {
+        document.getElementById('internDashboard').style.display = 'block';
+      } else if (role === 'mentor') {
+        document.getElementById('mentorDashboard').style.display = 'block';
+      } else if (role === 'coordinator') {
+        document.getElementById('coordinatorDashboard').style.display = 'block';
+      }
+
+      // Hide login section
+      document.getElementById('loginSection').style.display = 'none';
+    }
+
+    // Function to log out
+    function logout() {
+      document.getElementById('loginSection').style.display = 'block';
+      document.querySelectorAll('.dashboard').forEach(dashboard => {
+        dashboard.style.display = 'none';
+      });
+    }
+
+    // Handle intern details form submission (Intern Dashboard)
+    document.getElementById('internDetailsForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      let internDetails = {
+        startDate: document.getElementById('startDate').value,
+        companyName: document.getElementById('companyName').value,
+        companyAddress: document.getElementById('companyAddress').value,
+        externalMentor: document.getElementById('externalMentor').value,
+        mentorContact: document.getElementById('mentorContact').value,
+        mentorEmail: document.getElementById('mentorEmail').value,
+        companyRegNumber: document.getElementById('companyRegNumber').value,
+        stipend: document.getElementById('stipend').value,
+        offerLetter: document.getElementById('offerLetter').files[0]?.name
+      };
+
+      console.log('Intern details submitted:', internDetails);
+      alert('Intern details submitted successfully!');
+    });
+  </script>
+</body>
+</html>
